@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         setForEditing(false);
         initChangeDateButton();
     }
-
+// Image Button initialization for Nav Bar Contacts List
     private void initListButton() {
         ImageButton ibList = findViewById(R.id.imageButtonList);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             editName.requestFocus();
         }
     }
-
+//Image Button initialization for nav bar Mapping
     private void initMapButton() {
         ImageButton ibList = findViewById(R.id.imageButtonMap);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
     }
+    //Image Button initialization for Nav Bar Settings
     private void initSettingsButton() {
         ImageButton ibList = findViewById(R.id.imageButtonSettings);
         ibList.setOnClickListener(new View.OnClickListener() {
