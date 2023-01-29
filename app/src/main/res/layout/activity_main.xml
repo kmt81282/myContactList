@@ -254,18 +254,19 @@
                 android:text="@string/email_address"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editHome" />
+
             <EditText
                 android:id="@+id/editEMail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textEMail"
                 android:ems="16"
                 android:imeOptions="actionNext"
+                android:inputType="textWebEmailAddress"
                 android:nextFocusDown="@+id/textEMail"
-                android:inputType="phone" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textEMail" />
             <TextView
                 android:id="@+id/textBday"
                 android:layout_width="wrap_content"
