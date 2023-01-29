@@ -293,14 +293,16 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                boolean wasSuccessful;
+                boolean wasSuccessful = true;
                 ContactDataSource ds = new ContactDataSource(MainActivity.this);
                 try {
                     ds.open();
 
                     if (currentContact.getContactID() == -1) {
+
                         wasSuccessful = ds.insertContact(currentContact);
                         if (wasSuccessful) {
+
                             int newID = ds.getLastContactID();
                             currentContact.setContactID(newID);
                         }

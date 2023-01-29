@@ -15,7 +15,7 @@ import java.util.Calendar;
         private String eMail;
         private Calendar birthday;
 
-        public void Contact() {
+        public Contact() {
             contactID = -1;
             birthday = Calendar.getInstance();
         }

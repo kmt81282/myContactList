@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 /*
-The Data Access classtheclass that opens and closes the database and
+The Data Access class it the class that opens and closes the database and
 contains the queries used to store and retrieve data from the database.
  */
 public class ContactDataSource {
@@ -20,13 +20,18 @@ public class ContactDataSource {
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
+    /*
     public void close() {
         dbHelper.close();
     }
+
+     */
     //Insert and Update Contact Methods
     public boolean insertContact(Contact c) {
+
         boolean didSucceed = false;
         try {
+            database = dbHelper.getWritableDatabase();
             ContentValues initialValues = new ContentValues();  //obj used to store key/value pairs
 
             //Values are retrieved from the contact object and inserted into the ContentValues obj
@@ -44,7 +49,11 @@ public class ContactDataSource {
           returning the number of rows updated. If it's greater than 0 the operation succeeded and the
           return value is set to true.
             */
-            didSucceed = database.insert("contact", null, initialValues) > 0;
+           // didSucceed = database.insert("contact", null, initialValues) > 0;
+
+
+            didSucceed = database.insert("contact",null,initialValues) > 0;
+
         }
         catch (Exception e) {
             //if an exception is thrown the value remains false because the 0 is not greater than 0
@@ -101,7 +110,9 @@ public class ContactDataSource {
         }
         return lastID;
     }
-
+    public void close() {
+        dbHelper.close();
+    }
 
 
 
