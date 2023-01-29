@@ -3,6 +3,7 @@ package com.example.mycontactslistv3;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -10,9 +11,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -83,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         if(enabled) {
             editName.requestFocus();
+        }
+        else {
+            ScrollView s = findViewById(R.id.scrollView);
+            s.fullScroll(ScrollView.FOCUS_UP);
         }
     }
 //Image Button initialization for nav bar Mapping
@@ -285,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 boolean wasSuccessful;
                 ContactDataSource ds = new ContactDataSource(MainActivity.this);
                 try {
@@ -311,6 +319,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }
             }
         });
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager)
+                                    getSystemService(Context.INPUT_METHOD_SERVICE);
+        EditText editName = findViewById(R.id.editName);
+        imm.hideSoftInputFromWindow(editName.getWindowToken(),0);
+        EditText editAddress = findViewById(R.id.editAddress);
+        imm.hideSoftInputFromWindow(editAddress.getWindowToken(),0);
+        EditText editCity = findViewById(R.id.editCity);
+        imm.hideSoftInputFromWindow(editCity.getWindowToken(),0);
+        EditText editState = findViewById(R.id.editState);
+        imm.hideSoftInputFromWindow(editState.getWindowToken(),0);
+        EditText editZipcode = findViewById(R.id.editZipcode);
+        imm.hideSoftInputFromWindow(editZipcode.getWindowToken(),0);
+        EditText editHome = findViewById(R.id.editHome);
+        imm.hideSoftInputFromWindow(editHome.getWindowToken(),0);
+        EditText editCell = findViewById(R.id.editCell);
+        imm.hideSoftInputFromWindow(editCell.getWindowToken(),0);
+        EditText editMail = findViewById(R.id.editEMail);
+        imm.hideSoftInputFromWindow(editMail.getWindowToken(),0);
+
     }
 
 }
