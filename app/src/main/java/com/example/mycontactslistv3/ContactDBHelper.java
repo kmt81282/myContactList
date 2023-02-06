@@ -28,7 +28,7 @@ public class ContactDBHelper extends SQLiteOpenHelper {
             "create table contact (_id integer primary key AUTOINCREMENT,"
             + "contactname text not null, streetaddress text,"
             + "city text, state text, zipcode text,"
-            + "cellnumber text, email text, birthday text);";
+            + "phonenumber text, cellnumber text, email text, birthday text);";
 
     public ContactDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

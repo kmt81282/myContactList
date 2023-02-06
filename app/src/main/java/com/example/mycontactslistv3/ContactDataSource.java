@@ -5,6 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
 /*
 The Data Access class it the class that opens and closes the database and
 contains the queries used to store and retrieve data from the database.
@@ -20,12 +24,12 @@ public class ContactDataSource {
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
-    /*
+
     public void close() {
         dbHelper.close();
     }
 
-     */
+
     //Insert and Update Contact Methods
     public boolean insertContact(Contact c) {
 
@@ -40,17 +44,17 @@ public class ContactDataSource {
             initialValues.put("city", c.getCity());
             initialValues.put("state", c.getState());
             initialValues.put("zipcode", c.getZipCode());
+            initialValues.put("phonenumber",c.getPhoneNumber());
             initialValues.put("cellnumber", c.getCellNumber());
             initialValues.put("email", c.geteMail());
-            initialValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis())); //set to millis, SQLite does not support stored dates direclty
+            initialValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis()));
+            //set to millis, SQLite does not support stored dates direclty
 
             /*
           The didSucceed.insert called and passed to the name of the table and values to insert
           returning the number of rows updated. If it's greater than 0 the operation succeeded and the
           return value is set to true.
             */
-           // didSucceed = database.insert("contact", null, initialValues) > 0;
-
 
             didSucceed = database.insert("contact",null,initialValues) > 0;
 
@@ -110,8 +114,72 @@ public class ContactDataSource {
         }
         return lastID;
     }
-    public void close() {
-        dbHelper.close();
+
+    /*
+    Create the Data Source Method:
+
+     */
+    public ArrayList<String> getContactName() {
+        ArrayList<String> contactNames = new ArrayList<>();
+        try {
+            String query = "Select contactname from contact";
+            Cursor cursor = database.rawQuery(query,null);
+
+            /*
+            A loop is set up to go through all the records in the cursor. The loop is initialized by moving to the first record in the cursor.
+            Next, the while loop is set up to test if the end of the cursor’s record set has been reached. Within the loop, the contact name is added to the ArrayList,
+            and the cursor is advanced to the next record. Forgetting the moveToNext() command will leave your method in an infinite loop,
+            because it will never reach the end of the record set.
+             */
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                contactNames.add(cursor.getString(0));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        catch (Exception e) {
+            contactNames = new ArrayList<String>();
+        }
+        return contactNames;
+    }
+
+    public ArrayList<Contact> getContacts() {
+        ArrayList<Contact> contacts = new ArrayList<Contact>();
+        try {
+            String query = "SELECT * FROM contact";
+            Cursor cursor = database.rawQuery(query, null);
+
+            Contact newContact;
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                newContact = new Contact();     //A new Contact object is instantiated for each record in the cursor.
+                // All the values in the record are added to the appropriate attribute in the new object.
+                // Care must be taken to get the proper field. You need to know the structure of your table for this, since the fields
+                // are only referenced by their location in the table. The first field in the table creation SQL statement is index 0 in the cursor,
+                // the second field is index 1, and so on.
+                newContact.setContactID(cursor.getInt(0));
+                newContact.setContactName(cursor.getString(1));
+                newContact.setStreetAddress(cursor.getString(2));
+                newContact.setCity(cursor.getString(3));
+                newContact.setState(cursor.getString(4));
+                newContact.setZipCode(cursor.getString(5));
+                newContact.setPhoneNumber(cursor.getString(6));
+                newContact.setCellNumber(cursor.getString(7));
+                newContact.seteMail(cursor.getString(8));
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(Long.valueOf(cursor.getString(9)));
+                newContact.setBirthday(calendar);
+                contacts.add(newContact);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        catch (Exception e) {
+            contacts = new ArrayList<Contact>();
+        }
+        return contacts;
     }
 
 

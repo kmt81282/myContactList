@@ -19,4 +19,7 @@
     <string name="change">Change</string>
     <string name="cancel">Cancel</string>
     <string name="select">Select</string>
+    <string name="information_missing">Information Not Maintained</string>
+    <string name="delete">Delete</string>
+    <string name="no_number">No Number</string>
 </resources>
