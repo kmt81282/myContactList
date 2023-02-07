@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class ContactListActivity extends AppCompatActivity {
 
-    //RecyclerView contactList;
+    RecyclerView contactList;
     ArrayList<Contact> contacts;
-    //ContactAdapter contactAdapter = new ContactAdapter(contacts);
+    ContactAdapter contactAdapter = new ContactAdapter(contacts);
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
 
@@ -25,9 +25,9 @@ public class ContactListActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder)
                     view.getTag();
             int position = viewHolder.getAdapterPosition();
-            //int contactID = contacts.get(position).getContactID();
+            int contactID = contacts.get(position).getContactID();
             Intent intent = new Intent(ContactListActivity.this, MainActivity.class);
-            //intent.putExtra("contactID", contactID);
+            intent.putExtra("contactID", contactID);
             startActivity(intent);
         }
     };
@@ -37,17 +37,19 @@ public class ContactListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
 
-        initListButton();
+        //initListButton();
         initMapButton();
         initSettingsButton();
+        contactAdapter.setOnItemClickListener(onItemClickListener);
+
 
         ContactDataSource ds = new ContactDataSource(this);
-        ArrayList<String> names;
+        ArrayList<Contact> contacts;
 
         try {
             ds.open();
-            names = ds.getContactName();  //updated to below to address the contact object
-            //contacts = ds.getContacts();
+            //names = ds.getContactName();  //updated to below to address the contact object
+            contacts = ds.getContacts();
             ds.close();
             /*
             Sets up the RecyclerView to display the data. First a reference to the widget is created using findViewById. The next line creates an instance of the
@@ -58,7 +60,7 @@ public class ContactListActivity extends AppCompatActivity {
             RecyclerView contactList = findViewById(R.id.rvContacts);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             contactList.setLayoutManager(layoutManager);
-            ContactAdapter contactAdapter = new ContactAdapter(names);
+            ContactAdapter contactAdapter = new ContactAdapter(contacts);
             contactList.setAdapter(contactAdapter);
         } catch (Exception e) {
             Toast.makeText(this, "Error retrieving contacts", Toast.LENGTH_LONG).show();
@@ -93,18 +95,22 @@ public class ContactListActivity extends AppCompatActivity {
             }
         });
     }
+}
 
+/*
     private void initListButton() {
         ImageButton ibList = findViewById(R.id.imageButtonList);
         ibList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(ContactListActivity.this, ContactMapActivity.class);
+                Intent intent = new Intent(ContactListActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
     }
 }
+
+ */
 
 
 

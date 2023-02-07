@@ -15,10 +15,11 @@ The @NonNull notation used throughout this code indicates that the parameter—f
 {—cannot contain a null value or, if it’s before a method, that the method cannot return a null value
  */
 public class ContactAdapter extends RecyclerView.Adapter {
-    private ArrayList<String> contactData;  //Since we retrieve the contact names as an ArrayList of Strings, we must match that data type here.
+    //private ArrayList<String> contactData;  //Since we retrieve the contact names as an ArrayList of Strings, we must match that data type here.
     //Above was commented out as changed to
-    //private ArrayList<Contact> contactData;
-   private View.OnClickListener mOnItemClickListener;  //This line declares a private variable to hold the OnClickListener object passed from the activity.
+
+    private ArrayList<Contact> contactData;
+    private View.OnClickListener mOnItemClickListener;  //This line declares a private variable to hold the OnClickListener object passed from the activity.
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {
         /*
@@ -26,14 +27,13 @@ public class ContactAdapter extends RecyclerView.Adapter {
         only widget in the item’s layout is declared. Since the only widget is a TextView, this is all that is declared.
          */
         public TextView textViewContact;
-
-        //public TextView textPhone;
-        //public Button deleteButton;
+        public TextView textPhone;
+        public Button deleteButton;
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewContact = itemView.findViewById(R.id.textViewName);
-            // textPhone = itemView.findViewById(R.id.textPhoneNumber);
-            //  deleteButton = itemView.findViewById(R.id.buttonDeleteContact);
+            textViewContact = itemView.findViewById(R.id.textContactName);
+            textPhone = itemView.findViewById(R.id.textPhoneNumber);
+            deleteButton = itemView.findViewById(R.id.buttonDeleteContact);
             itemView.setTag(this); //The first line sets a tag so that we can identify which item was clicked.
             itemView.setOnClickListener(mOnItemClickListener);  // The second line sets the ViewHolder’s OnClickListener to the listener passed from the activity.
         }
@@ -41,8 +41,16 @@ public class ContactAdapter extends RecyclerView.Adapter {
             return textViewContact;
         }
 
+        public TextView getPhoneTextView() {
+            return textPhone;
         }
-        public ContactAdapter(ArrayList<String> arrayList) {
+
+        public Button getDeleteButton() {
+            return deleteButton;
+        }
+
+        }
+        public ContactAdapter(ArrayList<Contact> arrayList) {
         //A constructor method for the adapter is declared.
         contactData = arrayList;                            //This constructor is used to associate the data to be displayed with the adapter.
         }
@@ -61,7 +69,7 @@ public class ContactAdapter extends RecyclerView.Adapter {
         // display for each item using the layout file we created. For each item, a ViewHolder is created using the inflated XML and returned
         // to the RecylcerView to be displayed in the activity.
         */
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_item_view, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ContactViewHolder(v);
     }
 
@@ -72,9 +80,9 @@ public class ContactAdapter extends RecyclerView.Adapter {
     of the TextView to the name of the contact at the current position in the data set.
     */
         ContactViewHolder cvh = (ContactViewHolder) holder;
-        cvh.getContactTextView().setText(contactData.get(position));
-     //   cvh.getContactTextView().setText(contactData.get(position).getContactName());
-     //   cvh.getPhoneTextView().setText(contactData.get(position).getPhoneNumber());
+     //   cvh.getContactTextView().setText(contactData.get(position)); --Commented out to modify to below
+          cvh.getContactTextView().setText(contactData.get(position).getContactName());
+          cvh.getPhoneTextView().setText(contactData.get(position).getPhoneNumber());
 
     }
 
