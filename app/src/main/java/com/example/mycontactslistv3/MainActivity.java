@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         initToggleButton();
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            initContact(extras.getInt("contactid"));
+            initContact(extras.getInt("contactID"));
         }
         else {
             currentContact = new Contact();
@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             currentContact = ds.getSpecificContact(id);
             ds.close();
         } catch (Exception e) {
-            Toast.makeText(this, "Load Conatc Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Load Conatct Failed", Toast.LENGTH_LONG).show();
         }
 
         EditText editName = findViewById(R.id.editName);

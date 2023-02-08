@@ -1,10 +1,14 @@
 package com.example.mycontactslistv3;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +22,12 @@ public class ContactAdapter extends RecyclerView.Adapter {
     //private ArrayList<String> contactData;  //Since we retrieve the contact names as an ArrayList of Strings, we must match that data type here.
     //Above was commented out as changed to
 
+
     private ArrayList<Contact> contactData;
     private View.OnClickListener mOnItemClickListener;  //This line declares a private variable to hold the OnClickListener object passed from the activity.
+    private boolean isDeleting;
+    private Context parentContext;
+
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {
         /*
@@ -29,6 +37,7 @@ public class ContactAdapter extends RecyclerView.Adapter {
         public TextView textViewContact;
         public TextView textPhone;
         public Button deleteButton;
+
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewContact = itemView.findViewById(R.id.textContactName);
@@ -37,6 +46,7 @@ public class ContactAdapter extends RecyclerView.Adapter {
             itemView.setTag(this); //The first line sets a tag so that we can identify which item was clicked.
             itemView.setOnClickListener(mOnItemClickListener);  // The second line sets the ViewHolder’s OnClickListener to the listener passed from the activity.
         }
+
         public TextView getContactTextView() {
             return textViewContact;
         }
@@ -49,17 +59,19 @@ public class ContactAdapter extends RecyclerView.Adapter {
             return deleteButton;
         }
 
-        }
-        public ContactAdapter(ArrayList<Contact> arrayList) {
+    }
+
+    public ContactAdapter(ArrayList<Contact> arrayList, Context context) {
         //A constructor method for the adapter is declared.
         contactData = arrayList;                            //This constructor is used to associate the data to be displayed with the adapter.
-        }
+        parentContext = context;
+    }
 
 
     public void setOnItemClickListener(View.OnClickListener itemClickListener) {  //This code sets up an adapter method so that we can pass the listener
-            // from the activity to the adapter.
+        // from the activity to the adapter.
         mOnItemClickListener = itemClickListener;
-        }
+    }
 
     @NonNull
     @Override
@@ -74,18 +86,29 @@ public class ContactAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {       /*This is also a required method. It is also called
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder,
+                                 @SuppressLint("RecyclerView") final int position) {       /*This is also a required method. It is also called
     for each item in the data set. It is passed to the ViewHolder created by the OnCreateViewHolder method as a generic ViewHolder.
     This is then cast into the associated ContactViewHolder, and the classes getContactTextView method is called to set the text attribute
     of the TextView to the name of the contact at the current position in the data set.
     */
         ContactViewHolder cvh = (ContactViewHolder) holder;
-     //   cvh.getContactTextView().setText(contactData.get(position)); --Commented out to modify to below
-          cvh.getContactTextView().setText(contactData.get(position).getContactName());
-          cvh.getPhoneTextView().setText(contactData.get(position).getPhoneNumber());
+        //   cvh.getContactTextView().setText(contactData.get(position)); --Commented out to modify to below
+        cvh.getContactTextView().setText(contactData.get(position).getContactName());
+        cvh.getPhoneTextView().setText(contactData.get(position).getPhoneNumber());
+        if (isDeleting) {
+            cvh.getDeleteButton().setVisibility(View.VISIBLE);
+            cvh.getDeleteButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteItem(position);
+                }
+            });
+        } else {
+            cvh.getDeleteButton().setVisibility(View.INVISIBLE);
+        }
 
     }
-
 
     @Override
     public int getItemCount() {         /*This is the last required method in the adapter. It returns the number of items in the data set.
@@ -93,6 +116,29 @@ public class ContactAdapter extends RecyclerView.Adapter {
     */
         return contactData.size();
     }
+
+    public void setDelete(boolean b) {
+        isDeleting = b;
+    }
+    private void deleteItem(int position) {
+        Contact contact = contactData.get(position);
+        ContactDataSource ds = new ContactDataSource(parentContext);
+        try {
+            ds.open();
+            boolean didDelete = ds.deleteContact(contact.getContactID());
+            ds.close();
+            if (didDelete) {
+                contactData.remove(position);
+                notifyDataSetChanged();
+            } else {
+                Toast.makeText(parentContext, "Delete Failed!", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(parentContext, "Delete Failed", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }
 
 

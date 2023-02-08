@@ -137,15 +137,15 @@ public class ContactDataSource {
             }
             cursor.close();
         } catch (Exception e) {
-            contactNames = new ArrayList<String>();
+            contactNames = new ArrayList<>();
         }
         return contactNames;
     }
 
-    public ArrayList<Contact> getContacts() {
+    public ArrayList<Contact> getContacts(String sortField, String sortOrder) {
         ArrayList<Contact> contacts = new ArrayList<Contact>();
         try {
-            String query = "SELECT * FROM contact";
+            String query = "SELECT * FROM contact ORDER BY " + sortField + " " + sortOrder;
             Cursor cursor = database.rawQuery(query, null);
 
             Contact newContact;
@@ -180,7 +180,7 @@ public class ContactDataSource {
 
     public Contact getSpecificContact(int contactID) {  //The method has a parameter in its signature. The parameter is an integer that holds the ID of the contact to be retrieved.
         Contact contact = new Contact();
-        String query = "SELECT * FROM contact WERE _id =" + contactID;  //The SQL query has a WHERE clause that is passed by the value of the parameter so that only the contact with that ID value is returned to the cursor.
+        String query = "SELECT * FROM contact WHERE _id =" + contactID;  //The SQL query has a WHERE clause that is passed by the value of the parameter so that only the contact with that ID value is returned to the cursor.
         Cursor cursor = database.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {  //The cursor moves to the first record returned. If a contact is found, the Contact object is populated.
@@ -201,6 +201,17 @@ public class ContactDataSource {
             cursor.close();
         }
         return contact;
+    }
+
+    public boolean deleteContact(int contactID) {
+        boolean didDelete = false;
+        try {
+            didDelete = database.delete("contact", "_id",null)>0;
+        }
+        catch (Exception e) {
+            //Do nothing return is already false
+        }
+        return didDelete;
     }
 
 
