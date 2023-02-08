@@ -16,8 +16,9 @@ contains the queries used to store and retrieve data from the database.
 public class ContactDataSource {
     private SQLiteDatabase database;
     private ContactDBHelper dbHelper;
-//the helper and data source classes are instantiated
-    public ContactDataSource(Context context){
+
+    //the helper and data source classes are instantiated
+    public ContactDataSource(Context context) {
         dbHelper = new ContactDBHelper(context);
     }
 
@@ -44,7 +45,7 @@ public class ContactDataSource {
             initialValues.put("city", c.getCity());
             initialValues.put("state", c.getState());
             initialValues.put("zipcode", c.getZipCode());
-            initialValues.put("phonenumber",c.getPhoneNumber());
+            initialValues.put("phonenumber", c.getPhoneNumber());
             initialValues.put("cellnumber", c.getCellNumber());
             initialValues.put("email", c.geteMail());
             initialValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis()));
@@ -56,10 +57,9 @@ public class ContactDataSource {
           return value is set to true.
             */
 
-            didSucceed = database.insert("contact",null,initialValues) > 0;
+            didSucceed = database.insert("contact", null, initialValues) > 0;
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             //if an exception is thrown the value remains false because the 0 is not greater than 0
         }
         return didSucceed;
@@ -86,8 +86,7 @@ public class ContactDataSource {
             updateValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis()));
 
             didSucceed = database.update("contact", updateValues, "_id=" + rowID, null) > 0;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
         return didSucceed;
@@ -108,8 +107,7 @@ public class ContactDataSource {
             cursor.moveToFirst(); //Cursor is told to move to the first record in the returned data.
             lastID = cursor.getInt(0);  //The maximum ID is retrieved from the record set. Fields in the record set are indexed starting at 0.
             cursor.close();  // Dont forget to close dp's and cursors!!!
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             lastID = -1;
         }
         return lastID;
@@ -123,7 +121,7 @@ public class ContactDataSource {
         ArrayList<String> contactNames = new ArrayList<>();
         try {
             String query = "Select contactname from contact";
-            Cursor cursor = database.rawQuery(query,null);
+            Cursor cursor = database.rawQuery(query, null);
 
             /*
             A loop is set up to go through all the records in the cursor. The loop is initialized by moving to the first record in the cursor.
@@ -138,8 +136,7 @@ public class ContactDataSource {
                 cursor.moveToNext();
             }
             cursor.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             contactNames = new ArrayList<String>();
         }
         return contactNames;
@@ -175,13 +172,36 @@ public class ContactDataSource {
                 cursor.moveToNext();
             }
             cursor.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             contacts = new ArrayList<Contact>();
         }
         return contacts;
     }
 
+    public Contact getSpecificContact(int contactID) {  //The method has a parameter in its signature. The parameter is an integer that holds the ID of the contact to be retrieved.
+        Contact contact = new Contact();
+        String query = "SELECT * FROM contact WERE _id =" + contactID;  //The SQL query has a WHERE clause that is passed by the value of the parameter so that only the contact with that ID value is returned to the cursor.
+        Cursor cursor = database.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {  //The cursor moves to the first record returned. If a contact is found, the Contact object is populated.
+            // If no contact was retrieved, the moveToFirst method will be false and the contact will not be populated.
+            contact.setContactID(cursor.getInt(0));
+            contact.setContactName(cursor.getString(1));
+            contact.setStreetAddress(cursor.getString(2));
+            contact.setCity(cursor.getString(3));
+            contact.setState(cursor.getString(4));
+            contact.setZipCode(cursor.getString(5));
+            contact.setPhoneNumber(cursor.getString(6));
+            contact.setCellNumber(cursor.getString(7));
+            contact.seteMail(cursor.getString(8));
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(Long.valueOf(cursor.getString(9)));
+            contact.setBirthday(calendar);
+
+            cursor.close();
+        }
+        return contact;
+    }
 
 
 

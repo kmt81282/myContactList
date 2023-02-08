@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.Calendar;
@@ -24,7 +25,7 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.SaveDateListener {
 
     private Contact currentContact; //Step 1 - We need an association between the MainActivity class and contact object
-     //Step 2 - Associates currentContact with var with a new Contact object
+    //Step 2 - Associates currentContact with var with a new Contact object
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,22 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         initMapButton();
         initSettingsButton();
         initToggleButton();
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            initContact(extras.getInt("contactid"));
+        }
+        else {
+            currentContact = new Contact();
+        }
         setForEditing(false);
         initChangeDateButton();
         initTextChangeEvents();
         initSaveButton();
 
-        currentContact = new Contact();
+        //currentContact = new Contact();  //deleted per 6.10 activity
     }
-// Image Button initialization for Nav Bar Contacts List
+
+    // Image Button initialization for Nav Bar Contacts List
     private void initListButton() {
         ImageButton ibList = findViewById(R.id.imageButtonList);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
     }
+
     private void initToggleButton() {
         final ToggleButton editToggle = (ToggleButton) findViewById(R.id.toggleButtonEdit);
         editToggle.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
     }
+
     private void setForEditing(boolean enabled) {
         EditText editName = findViewById(R.id.editName);
         EditText editAddress = findViewById(R.id.editAddress);
@@ -84,15 +95,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         buttonChange.setEnabled(enabled);
         buttonSave.setEnabled(enabled);
 
-        if(enabled) {
+        if (enabled) {
             editName.requestFocus();
-        }
-        else {
+        } else {
             ScrollView s = findViewById(R.id.scrollView);
             s.fullScroll(ScrollView.FOCUS_UP);
         }
     }
-//Image Button initialization for nav bar Mapping
+
+    //Image Button initialization for nav bar Mapping
     private void initMapButton() {
         ImageButton ibList = findViewById(R.id.imageButtonMap);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
     }
+
     //Image Button initialization for Nav Bar Settings
     private void initSettingsButton() {
         ImageButton ibList = findViewById(R.id.imageButtonSettings);
@@ -121,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         birthDay.setText(DateFormat.format("MM/dd/yyyy", selectedTime));
         currentContact.setBirthday(selectedTime);  //Step 3: added code to store the select birthday in the Contact object
     }
+
     private void initChangeDateButton() {
         Button changeDate = findViewById(R.id.btnBirthday);
         changeDate.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
                 DatePickerDialog datePickerDialog = new DatePickerDialog();
-                datePickerDialog.show(fm,"DatePick");
+                datePickerDialog.show(fm, "DatePick");
             }
         });
     }
@@ -310,10 +323,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                         wasSuccessful = ds.updateContact(currentContact);
                     }
                     ds.close();
+                } catch (Exception e) {
+                    wasSuccessful = false;
                 }
-                catch (Exception e) {
-                        wasSuccessful = false;
-                    }
                 if (wasSuccessful) {
                     ToggleButton editToggle = findViewById(R.id.toggleButtonEdit);
                     editToggle.toggle();
@@ -325,24 +337,60 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager)
-                                    getSystemService(Context.INPUT_METHOD_SERVICE);
+                getSystemService(Context.INPUT_METHOD_SERVICE);
         EditText editName = findViewById(R.id.editName);
-        imm.hideSoftInputFromWindow(editName.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editName.getWindowToken(), 0);
         EditText editAddress = findViewById(R.id.editAddress);
-        imm.hideSoftInputFromWindow(editAddress.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editAddress.getWindowToken(), 0);
         EditText editCity = findViewById(R.id.editCity);
-        imm.hideSoftInputFromWindow(editCity.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editCity.getWindowToken(), 0);
         EditText editState = findViewById(R.id.editState);
-        imm.hideSoftInputFromWindow(editState.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editState.getWindowToken(), 0);
         EditText editZipcode = findViewById(R.id.editZipcode);
-        imm.hideSoftInputFromWindow(editZipcode.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editZipcode.getWindowToken(), 0);
         EditText editHome = findViewById(R.id.editHome);
-        imm.hideSoftInputFromWindow(editHome.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editHome.getWindowToken(), 0);
         EditText editCell = findViewById(R.id.editCell);
-        imm.hideSoftInputFromWindow(editCell.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editCell.getWindowToken(), 0);
         EditText editMail = findViewById(R.id.editEMail);
-        imm.hideSoftInputFromWindow(editMail.getWindowToken(),0);
+        imm.hideSoftInputFromWindow(editMail.getWindowToken(), 0);
 
     }
 
+    private void initContact(int id) {
+        ContactDataSource ds = new ContactDataSource(MainActivity.this);
+        try {
+            ds.open();
+            currentContact = ds.getSpecificContact(id);
+            ds.close();
+        } catch (Exception e) {
+            Toast.makeText(this, "Load Conatc Failed", Toast.LENGTH_LONG).show();
+        }
+
+        EditText editName = findViewById(R.id.editName);
+        EditText editAddress = findViewById(R.id.editAddress);
+        EditText editCity = findViewById(R.id.editCity);
+        EditText editState = findViewById(R.id.editState);
+        EditText editZipcode = findViewById(R.id.editZipcode);
+        EditText editPhone = findViewById(R.id.editHome);
+        EditText editCell = findViewById(R.id.editCell);
+        EditText editMail = findViewById(R.id.editEMail);
+        TextView birthDay = findViewById(R.id.textBirthday);
+
+        editName.setText(currentContact.getContactName());
+        editAddress.setText(currentContact.getStreetAddress());
+        editCity.setText(currentContact.getCity());
+        editState.setText(currentContact.getState());
+        editZipcode.setText(currentContact.getZipCode());
+        editPhone.setText(currentContact.getPhoneNumber());
+        editCell.setText(currentContact.getCellNumber());
+        editMail.setText(currentContact.geteMail());
+        birthDay.setText(DateFormat.format("MM/dd/yyyy",
+                currentContact.getBirthday().getTimeInMillis()).toString());
+    }
 }
+
+
+
+
+
