@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class ContactListActivity extends AppCompatActivity {
         initMapButton();
         initSettingsButton();
         contactAdapter.setOnItemClickListener(onItemClickListener);
+        initAddContactButton();
 
 
         ContactDataSource ds = new ContactDataSource(this);
@@ -94,7 +96,22 @@ public class ContactListActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initAddContactButton() {
+        Button newContact = findViewById(R.id.buttonAddContact);
+        newContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ContactListActivity.this, MainActivity.class);
+            }
+        });
+    }
+
+
 }
+
+
+
 
 /*
     private void initListButton() {
