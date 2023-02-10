@@ -81,6 +81,7 @@ public class ContactDataSource {
             updateValues.put("city", c.getCity());
             updateValues.put("state", c.getState());
             updateValues.put("zipcode", c.getZipCode());
+            updateValues.put("phonenumber", c.getPhoneNumber());
             updateValues.put("cellnumber", c.getCellNumber());
             updateValues.put("email", c.geteMail());
             updateValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis()));

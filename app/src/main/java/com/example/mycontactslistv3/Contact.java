@@ -77,7 +77,7 @@ import java.util.Calendar;
         }
 
         public String getCellNumber() {
-            return cellNumber;
+            return phoneNumber;
         }
 
         public void setCellNumber(String cellNumber) {

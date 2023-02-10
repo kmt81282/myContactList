@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setCity(etState.getText().toString());
+                currentContact.setState(etState.getText().toString());
 
             }
         });
@@ -291,6 +291,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void afterTextChanged(Editable s) {
                 currentContact.seteMail(etEmail.getText().toString());
+
+            }
+        });
+        final EditText etZip = findViewById(R.id.editZipcode);
+        etEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                currentContact.setZipCode(etZip.getText().toString());
 
             }
         });
