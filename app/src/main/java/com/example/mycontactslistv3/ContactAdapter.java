@@ -2,6 +2,7 @@ package com.example.mycontactslistv3;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 /*
@@ -37,12 +40,22 @@ public class ContactAdapter extends RecyclerView.Adapter {
         public TextView textViewContact;
         public TextView textPhone;
         public Button deleteButton;
+        public TextView textCell;
+        public TextView textAddress;
+        public TextView textState;
+        public TextView textZip;
+
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewContact = itemView.findViewById(R.id.textContactName);
             textPhone = itemView.findViewById(R.id.textPhoneNumber);
             deleteButton = itemView.findViewById(R.id.buttonDeleteContact);
+            textCell = itemView.findViewById(R.id.textCellView);
+            textAddress = itemView.findViewById(R.id.textViewAddress);
+            textState = itemView.findViewById(R.id.textStateCode);
+            textCell = itemView.findViewById(R.id.textCellView);
+            textZip = itemView.findViewById(R.id.textZip);
             itemView.setTag(this); //The first line sets a tag so that we can identify which item was clicked.
             itemView.setOnClickListener(mOnItemClickListener);  // The second line sets the ViewHolder’s OnClickListener to the listener passed from the activity.
         }
@@ -59,6 +72,21 @@ public class ContactAdapter extends RecyclerView.Adapter {
             return deleteButton;
         }
 
+        public TextView getTextAddress() {
+            return textAddress;
+        }
+
+        public TextView getTextState() {
+            return textState;
+        }
+
+        public TextView getTextCell() {
+            return textCell;
+        }
+
+        public TextView getTextZip() {
+            return textZip;
+        }
     }
 
     public ContactAdapter(ArrayList<Contact> arrayList, Context context) {
@@ -94,8 +122,17 @@ public class ContactAdapter extends RecyclerView.Adapter {
     */
         ContactViewHolder cvh = (ContactViewHolder) holder;
         //   cvh.getContactTextView().setText(contactData.get(position)); --Commented out to modify to below
+        if (position % 2 == 0){
+            ((ContactViewHolder) holder).textViewContact.setTextColor(Color.BLUE);
+        } else {
+            ((ContactViewHolder) holder).textViewContact.setTextColor(Color.RED);
+        }
         cvh.getContactTextView().setText(contactData.get(position).getContactName());
         cvh.getPhoneTextView().setText(contactData.get(position).getPhoneNumber());
+        cvh.getTextAddress().setText(contactData.get(position).getStreetAddress());
+        cvh.getTextState().setText(contactData.get(position).getState());
+        cvh.getTextCell().setText(contactData.get(position).getCellNumber());
+        cvh.getTextZip().setText(contactData.get(position).getZipCode());
         if (isDeleting) {
             cvh.getDeleteButton().setVisibility(View.VISIBLE);
             cvh.getDeleteButton().setOnClickListener(new View.OnClickListener() {
