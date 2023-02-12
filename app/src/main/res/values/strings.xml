@@ -23,6 +23,7 @@
     <string name="delete">Delete</string>
     <string name="no_number">No Number</string>
     <string name="no_address_saved">No Address Saved</string>
-    <string name="dash_out">--</string>
+    <string name="dash_out">-----------------</string>
     <string name="no_cell">No Cell</string>
+    <string name="confirm_cord">Confirm Corrdinates</string>
 </resources>
