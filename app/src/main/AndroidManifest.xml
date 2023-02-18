@@ -25,13 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyContactsListV3"
         tools:targetApi="31">
-        <activity
-            android:name=".ContactMapActivityScreenOne"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".ContactSettingsActivity"
             android:exported="false">
@@ -62,11 +56,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
 
         </activity>
+
         <meta-data
-            android:name="android.app.lib_name"
-            android:value="AIzaSyCtWYbkS5F6Nbpr6GPy-rys2auGZYZ5Jik" />
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDpk9b37jW8cAZOSinPhYdb4vqNvV7v424" />
+
 
         <uses-library android:name="org.apache.http.legacy"
             android:required="false" />

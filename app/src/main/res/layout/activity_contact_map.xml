@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".ContactMapActivity">
 
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/navbar"
         android:layout_width="0dp"
@@ -61,112 +70,5 @@
             app:srcCompat="@drawable/settingsicon"
             tools:ignore="RedundantDescriptionCheck" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/address"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
-        android:ems="16"
-        android:hint="@string/enter_street_address"
-        android:imeOptions="actionNext"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textAddress" />
-
-    <EditText
-        android:id="@+id/editCity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:ems="9"
-        android:hint="@string/city"
-        android:imeOptions="actionNext"
-        android:inputType="textCapWords"
-        android:nextFocusDown="@+id/editState"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editAddress" />
-
-    <EditText
-        android:id="@+id/editState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="8dp"
-        android:ems="2"
-        android:hint="@string/state"
-        android:imeOptions="actionNext"
-        android:inputType="textCapCharacters"
-        android:maxLength="2"
-        android:nextFocusDown="@+id/editZipcode"
-        app:layout_constraintStart_toEndOf="@+id/editCity"
-        app:layout_constraintTop_toBottomOf="@id/editAddress" />
-
-    <EditText
-        android:id="@+id/editZipcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="8dp"
-        android:ems="5"
-        android:hint="@string/zipcode"
-        android:imeOptions="actionNext"
-        android:inputType="number"
-        android:maxLength="5"
-        android:nextFocusDown="@+id/editHome"
-        app:layout_constraintStart_toEndOf="@+id/editState"
-        app:layout_constraintTop_toBottomOf="@id/editAddress" />
-
-    <Button
-        android:id="@+id/buttonGetLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/confirm_cord"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editCity" />
-
-    <TextView
-        android:id="@+id/textLatitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/dash_out"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonGetLocation" />
-
-    <TextView
-        android:id="@+id/textLongitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/dash_out"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLatitude" />
-
-    <TextView
-        android:id="@+id/textAccuracy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/dash_out"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLongitude" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
