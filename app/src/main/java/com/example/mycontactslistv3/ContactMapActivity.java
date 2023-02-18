@@ -28,6 +28,7 @@ public class ContactMapActivity extends AppCompatActivity {
     LocationListener gpsListener;
     final int PERMISSION_REQUEST_LOCATION = 101;
     Location currentBestLocation;
+    LocationListener networkListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class ContactMapActivity extends AppCompatActivity {
         }
         try {
             locationManager.removeUpdates(gpsListener);
+            locationManager.removeUpdates(networkListener);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,6 +121,35 @@ public class ContactMapActivity extends AppCompatActivity {
                     txtLatitude.setText(String.valueOf(location.getLatitude()));
                     txtLongitude.setText(String.valueOf(location.getLongitude()));
                     txtAccuracy.setText(String.valueOf(location.getAccuracy()));
+                    if (isBetterLocation(location)) {
+                        currentBestLocation = location;
+                        //Displays in location in TextViews
+                    }
+                    //no else block... if not better, just ignore
+                }
+
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+
+                public void onProviderEnabled(String provider) {
+                }
+
+                public void onProviderDisabled(String provider) {
+                }
+            };
+            networkListener = new LocationListener() {
+                public void onLocationChanged(Location location) {
+                    TextView txtLatitude = (TextView) findViewById(R.id.textLatitude);
+                    TextView txtLongitude = (TextView) findViewById(R.id.textLongitude);
+                    TextView txtAccuracy = (TextView) findViewById(R.id.textAccuracy);
+                    txtLatitude.setText(String.valueOf(location.getLatitude()));
+                    txtLongitude.setText(String.valueOf(location.getLongitude()));
+                    txtAccuracy.setText(String.valueOf(location.getAccuracy()));
+                    if (isBetterLocation(location)) {
+                        currentBestLocation = location;
+                        //display in location in TextViews
+                    }
+                    //no else block... if not better, just ignore
                 }
 
                 public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -136,6 +167,7 @@ public class ContactMapActivity extends AppCompatActivity {
             // you expect the device to move during the app’s use. Setting values higher than zero can help conserve the battery. This is especially
             // true of the time value. The minimum time is set in milliseconds (2*60*1,000 = 120,000, or 2 minutes). Minimum distance is set in meters.
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0, networkListener);
         }
         catch (Exception e) {
             Toast.makeText(getBaseContext(), "Error, Location not available", Toast.LENGTH_LONG).show();
@@ -144,6 +176,7 @@ public class ContactMapActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSION_REQUEST_LOCATION: {
                 if (grantResults.length > 0 &&

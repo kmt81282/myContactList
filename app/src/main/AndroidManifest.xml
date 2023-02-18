@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <permission
+        android:name="com.example.mycontactslistv3.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission
+        android:name="com.example.mycontactslistv3.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -52,10 +62,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+
         </activity>
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="AIzaSyCtWYbkS5F6Nbpr6GPy-rys2auGZYZ5Jik" />
+
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false" />
+
+
     </application>
 
 </manifest>
