@@ -262,6 +262,7 @@ public class ContactMapActivity extends AppCompatActivity implements OnMapReadyC
 
     public void onPause() {
         super.onPause();
+        stopLocationUpdates();
         if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getBaseContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
