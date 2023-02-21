@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -20,14 +21,14 @@
             android:id="@+id/imageButtonList"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:contentDescription="@string/button_to_display_a_list_of_contacts"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/contactlisticon"
             tools:ignore="RedundantDescriptionCheck" />
 
@@ -35,14 +36,14 @@
             android:id="@+id/imageButtonMap"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:contentDescription="@string/button_to_display_map_locations_of_contacts"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/mapicon"
             tools:ignore="RedundantDescriptionCheck" />
 
@@ -50,14 +51,14 @@
             android:id="@+id/imageButtonSettings"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:contentDescription="@string/button_to_change_settings"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/settingsicon"
             tools:ignore="RedundantDescriptionCheck" />
     </LinearLayout>
@@ -128,10 +129,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:ems="14"
-                android:inputType="textPersonName"
                 android:hint="Name"
+                android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textContact"/>
+                app:layout_constraintTop_toBottomOf="@id/textContact" />
 
             <TextView
                 android:id="@+id/textAddress"
@@ -150,11 +151,11 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:ems="16"
-                android:inputType="textPersonName"
                 android:hint="@string/enter_street_address"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textAddress"
-                android:imeOptions="actionNext"/>
+                app:layout_constraintTop_toBottomOf="@id/textAddress" />
 
             <EditText
                 android:id="@+id/editCity"
@@ -162,13 +163,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editAddress"
                 android:ems="9"
                 android:hint="@string/city"
                 android:imeOptions="actionNext"
+                android:inputType="textCapWords"
                 android:nextFocusDown="@+id/editState"
-                android:inputType="textCapWords" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editAddress" />
 
             <EditText
                 android:id="@+id/editState"
@@ -176,14 +177,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toEndOf="@+id/editCity"
-                app:layout_constraintTop_toBottomOf="@id/editAddress"
                 android:ems="2"
                 android:hint="@string/state"
-                android:maxLength="2"
                 android:imeOptions="actionNext"
+                android:inputType="textCapCharacters"
+                android:maxLength="2"
                 android:nextFocusDown="@+id/editZipcode"
-                android:inputType="textCapCharacters" />
+                app:layout_constraintStart_toEndOf="@+id/editCity"
+                app:layout_constraintTop_toBottomOf="@id/editAddress" />
 
             <EditText
                 android:id="@+id/editZipcode"
@@ -191,21 +192,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toEndOf="@+id/editState"
-                app:layout_constraintTop_toBottomOf="@id/editAddress"
                 android:ems="5"
                 android:hint="@string/zipcode"
-                android:maxLength="5"
                 android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="5"
                 android:nextFocusDown="@+id/editHome"
-                android:inputType="number" />
+                app:layout_constraintStart_toEndOf="@+id/editState"
+                app:layout_constraintTop_toBottomOf="@id/editAddress" />
+
             <TextView
                 android:id="@+id/textHome"
-                android:text="@string/home_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:text="@string/home_phone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editCity" />
 
@@ -225,25 +227,26 @@
 
             <TextView
                 android:id="@+id/textCell"
-                android:text="@string/cell_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
+                android:text="@string/cell_phone"
                 app:layout_constraintStart_toEndOf="@+id/editHome"
                 app:layout_constraintTop_toBottomOf="@id/editCity" />
+
             <EditText
                 android:id="@+id/editCell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                app:layout_constraintStart_toStartOf="@+id/textCell"
-                app:layout_constraintTop_toBottomOf="@+id/textCell"
                 android:ems="8"
-                android:maxLength="14"
                 android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="14"
                 android:nextFocusDown="@+id/editEMail"
-                android:inputType="phone" />
+                app:layout_constraintStart_toStartOf="@+id/textCell"
+                app:layout_constraintTop_toBottomOf="@+id/textCell" />
 
             <TextView
                 android:id="@+id/textEMail"
@@ -267,6 +270,7 @@
                 android:nextFocusDown="@+id/textEMail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textEMail" />
+
             <TextView
                 android:id="@+id/textBday"
                 android:layout_width="wrap_content"
@@ -276,6 +280,7 @@
                 android:text="@string/bday"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editEMail" />
+
             <TextView
                 android:id="@+id/textBirthday"
                 android:layout_width="wrap_content"
@@ -283,16 +288,27 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/birthday"
-                app:layout_constraintTop_toBottomOf="@id/editEMail"
-                app:layout_constraintStart_toEndOf="@+id/textBday"/>
+                app:layout_constraintStart_toEndOf="@+id/textBday"
+                app:layout_constraintTop_toBottomOf="@id/editEMail" />
+
             <Button
                 android:id="@+id/btnBirthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="60dp"
                 android:text="@string/change"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textBirthday"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageButton
+                android:id="@+id/imageContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textBirthday"/>
+                app:layout_constraintTop_toTopOf="@+id/textContact"
+                app:srcCompat="@drawable/photo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

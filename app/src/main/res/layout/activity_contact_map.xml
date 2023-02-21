@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/activity_contact_map"
+        app:layout_constraintBottom_toTopOf="@+id/navbar"
         app:layout_constraintEnd_toEndOf="parent">
 
     </androidx.fragment.app.FragmentContainerView>
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/map"
         app:layout_constraintTop_toTopOf="@+id/map">
 
@@ -44,7 +44,18 @@
             android:text="Satellite" />
 
     </RadioGroup>
-        <LinearLayout
+
+    <TextView
+        android:id="@+id/textHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="WNW"
+        app:layout_constraintEnd_toEndOf="@+id/map"
+        app:layout_constraintStart_toStartOf="@+id/map"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
         android:background="@color/navbar_background"
         android:id="@+id/navbar"
         android:layout_height="wrap_content"

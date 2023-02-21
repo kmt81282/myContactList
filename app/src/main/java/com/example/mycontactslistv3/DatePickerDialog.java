@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
@@ -17,6 +18,8 @@ public class DatePickerDialog extends DialogFragment {
 
     public interface SaveDateListener {
         void didFinishDatePickerDialog(Calendar selectedTime);
+
+        void onReqestPermissionResult(int requestCode, @NonNull String permission[], @NonNull int[] grantResults);
     }
 
     public DatePickerDialog() {
